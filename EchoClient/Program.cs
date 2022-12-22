@@ -2,6 +2,7 @@
 using Kosher.Extensions.Log;
 using Kosher.Log;
 using Kosher.Sockets;
+using Kosher.Sockets.Interface;
 
 namespace EchoClient
 {
@@ -12,12 +13,13 @@ namespace EchoClient
             LogBuilder.Configuration(LogConfigXmlReader.Load($"{AppContext.BaseDirectory}KosherLog.config"));
             LogBuilder.Build();
 
-
-            var sessionCreator = new SessionCreator(new DummySerializer(),
-                                                new DummyDeserializer(),
-                                                null);
-
-
+            var sessionCreator = new SessionCreator(() =>
+            {
+                return Tuple.Create<IPacketSerializer, IPacketDeserializer, ICollection<ISessionComponent>>(new DummySerializer(),
+                                                                                                            new DummyDeserializer(),
+                                                                                                            new List<ISessionComponent>() {  });
+            });
+            
             Parallel.For(0, 10000, (i) =>
             {
                 try

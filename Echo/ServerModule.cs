@@ -6,22 +6,20 @@ namespace Echo
 {
     internal class ServerModule
     {
-        readonly EchoHandler handler = new EchoHandler();
-        readonly DummyDeserializer _dummyDeserializer;
-        readonly DummySerializer _dummySerializer;
-
         EchoServer _server;
         bool isActive = false;
         public ServerModule()
         {
-            _dummyDeserializer = new DummyDeserializer(handler);
-            _dummySerializer = new DummySerializer();
         }
         public void Run()
         {
-            var sessionCreator = new SessionCreator(_dummySerializer,
-                                                _dummyDeserializer,
-                                                new List<ISessionComponent>() { handler });
+            var sessionCreator = new SessionCreator(() =>
+            {
+                EchoHandler handler = new EchoHandler();
+                return Tuple.Create<IPacketSerializer, IPacketDeserializer, ICollection<ISessionComponent>>(new DummySerializer(),
+                                                                                                            new DummyDeserializer(handler),
+                                                                                                            new List<ISessionComponent>() { handler });
+            });
             _server = new EchoServer(sessionCreator);
             _server.Start(35000);
             isActive = true;
