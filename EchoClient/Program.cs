@@ -20,15 +20,14 @@ namespace EchoClient
                                                                                                             new List<ISessionComponent>() {  });
             });
             
-            Parallel.For(0, 10000, (i) =>
+            Parallel.For(0, 2, (i) =>
             {
                 try
                 {
                     var client = new ClientModule(sessionCreator);
-                    client.Connect("13.125.232.85", 35000);
-                    //client.Connect("127.0.0.1", 35000);
+                    //client.Connect("13.125.232.85", 35000);
+                    client.Connect("127.0.0.1", 31000);
                     client.Send(new Packet($"client : {i}"));
-                    client.Close();
                 }
                 catch(Exception ex)
                 {

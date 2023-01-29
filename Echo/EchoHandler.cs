@@ -1,5 +1,7 @@
-﻿using Kosher.Sockets;
+﻿using Kosher.Log;
+using Kosher.Sockets;
 using Kosher.Sockets.Interface;
+using System.Text;
 
 namespace Echo
 {
@@ -12,6 +14,8 @@ namespace Echo
             {
                 return;
             }
+            var str = Encoding.UTF8.GetString(body);
+            LogHelper.Debug($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff")}] {str}");
             _session.Send(body);
         }
         

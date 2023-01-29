@@ -1,5 +1,4 @@
-﻿using Kosher.Collections;
-using Kosher.Log;
+﻿using Kosher.Log;
 using Kosher.Sockets.Interface;
 
 namespace Echo
@@ -11,22 +10,24 @@ namespace Echo
         {
             _protocolHandler = protocolHandler;
         }
-        public void Deserialize(Vector<byte> buffer)
+
+        public void Deserialize(BinaryReader stream)
         {
-            var bodyBytes = buffer.Read(buffer.LongCount);
+            var bodyBytes = stream.ReadBytes((int)stream.BaseStream.Length);
             _protocolHandler.Process(bodyBytes);
         }
-        public bool IsTakedCompletePacket(Vector<byte> buffer)
+
+        public bool IsTakedCompletePacket(BinaryReader stream)
         {
-            if(_protocolHandler.GetSession().IsDispose() == true)
+            if (_protocolHandler.GetSession().IsDispose() == true)
             {
                 LogHelper.Debug($"{_protocolHandler.GetSession().Id} is closed");
             }
-            if (buffer.Count <= 0)
+            if (stream.BaseStream.Length <= 0)
             {
                 return false;
             }
-            LogHelper.Debug($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff")}] id : {_protocolHandler.GetSession().Id} buffer size : {buffer.Count} {Thread.CurrentThread.ManagedThreadId}");
+            LogHelper.Debug($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff")}] id : {_protocolHandler.GetSession().Id} buffer size : {stream.BaseStream.Length} {Thread.CurrentThread.ManagedThreadId}");
             return true;
         }
     }

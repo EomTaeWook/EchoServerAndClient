@@ -10,9 +10,15 @@ namespace Echo
             LogBuilder.Configuration(LogConfigXmlReader.Load($"{AppContext.BaseDirectory}KosherLog.config"));
             LogBuilder.Build();
 
-            ServerModule serverModule = new ServerModule();
-
-            serverModule.Run();
+            try
+            {
+                ServerModule serverModule = new ServerModule();
+                serverModule.Run();
+            }
+            catch(Exception ex)
+            {
+                LogHelper.Error(ex.Message);
+            }            
         }
     }
 }
