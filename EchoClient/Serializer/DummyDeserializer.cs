@@ -19,7 +19,8 @@ namespace EchoClient.Serializer
 
         public void Deserialize(BinaryReader stream)
         {
-            
+            var bodyBytes = stream.ReadBytes((int)stream.BaseStream.Length);
+            LogHelper.Debug($"Receive Deserialize : {Encoding.UTF8.GetString(bodyBytes)}");
         }
 
         public bool IsTakedCompletePacket(Vector<byte> buffer)
@@ -43,7 +44,7 @@ namespace EchoClient.Serializer
 
             LogHelper.Debug($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff")}] buffer size : {stream.BaseStream.Length}");
             var length = stream.ReadInt32();
-            stream.BaseStream.Seek(0, SeekOrigin.Begin);
+            stream.BaseStream.Seek(-sizeof(int), SeekOrigin.Current);
             return length + sizeof(int) <= stream.BaseStream.Length;
         }
     }
