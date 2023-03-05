@@ -1,51 +1,44 @@
-﻿using Kosher.Collections;
-using Kosher.Log;
+﻿using Kosher.Log;
 using Kosher.Sockets.Interface;
-using System;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EchoClient.Serializer
 {
     internal class DummyDeserializer : IPacketDeserializer
     {
-        public void Deserialize(Vector<byte> buffer)
-        {
-            var bytes = buffer.Read(sizeof(int));
-            var length = BitConverter.ToInt32(bytes);
-            var bodyBytes = buffer.Read(length);
-            var text = Encoding.UTF8.GetString(bodyBytes);
-            LogHelper.Debug($"Receive Deserialize : {text}");
-        }
-
+        private static readonly int _sizeToInt = sizeof(int);
         public void Deserialize(BinaryReader stream)
         {
-            var bodyBytes = stream.ReadBytes((int)stream.BaseStream.Length);
-            LogHelper.Debug($"Receive Deserialize : {Encoding.UTF8.GetString(bodyBytes)}");
-        }
-
-        public bool IsTakedCompletePacket(Vector<byte> buffer)
-        {
-            if (buffer.Count < sizeof(int))
+            var length = stream.ReadInt32();
+            var bodyBytes = stream.ReadBytes(length);
+            var text = Encoding.UTF8.GetString(bodyBytes);
+            LogHelper.Debug($"Receive Deserialize : {text}");
+            if(text .Equals("string client : 92"))
             {
-                return false;
-            }
-            LogHelper.Debug($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff")}] buffer size : {buffer.Count}");
-            var bytes = buffer.Peek(sizeof(int));
-            var length = BitConverter.ToInt32(bytes);
-            return length + sizeof(int) <= buffer.Count;
-        }
 
+            }
+        }
         public bool IsTakedCompletePacket(BinaryReader stream)
         {
-            if (stream.BaseStream.Length < sizeof(int))
+            if (stream.BaseStream.Length < _sizeToInt)
             {
                 return false;
             }
+            var t = new byte[4];
+            stream.Read(t, 0, _sizeToInt);
+            var length = BitConverter.ToInt32(t);
+            LogHelper.Debug($"Receive Length : {length}");
+            if (length > 2048)
+            {
+                stream.BaseStream.Seek(-_sizeToInt, SeekOrigin.Current);
+                return false;
+            }
 
-            LogHelper.Debug($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff")}] buffer size : {stream.BaseStream.Length}");
-            var length = stream.ReadInt32();
-            stream.BaseStream.Seek(-sizeof(int), SeekOrigin.Current);
-            return length + sizeof(int) <= stream.BaseStream.Length;
+            LogHelper.Debug($"{Thread.GetCurrentProcessorId()}[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff")}] buffer size : {stream.BaseStream.Length}");
+            
+            stream.BaseStream.Seek(-_sizeToInt, SeekOrigin.Current);
+            return length + _sizeToInt <= stream.BaseStream.Length;
         }
     }
 }

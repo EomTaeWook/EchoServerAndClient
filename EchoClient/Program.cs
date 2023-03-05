@@ -3,6 +3,7 @@ using Kosher.Extensions.Log;
 using Kosher.Log;
 using Kosher.Sockets;
 using Kosher.Sockets.Interface;
+using System.Numerics;
 
 namespace EchoClient
 {
@@ -19,15 +20,19 @@ namespace EchoClient
                                                                                                             new DummyDeserializer(),
                                                                                                             new List<ISessionComponent>() {  });
             });
-            
-            Parallel.For(0, 1000, (i) =>
+
+            var client = new ClientModule(sessionCreator);
+            Parallel.For(0, 1, (i) =>
             {
                 try
                 {
-                    var client = new ClientModule(sessionCreator);
-                    client.Connect("13.125.232.85", 35000);
+                    
+                    client.Connect("13.125.232.85", 31000);
                     //client.Connect("127.0.0.1", 31000);
-                    client.Send(new Packet($"client : {i}"));
+                    for(long ii = 0; ii<1000; ++ii)
+                    {
+                        client.Send(new Packet($"string client : {ii}"));
+                    }
                 }
                 catch(Exception ex)
                 {

@@ -21,10 +21,10 @@ namespace Echo
                                                                                                             new List<ISessionComponent>() { handler });
             });
             _server = new EchoServer(sessionCreator);
-            _server.Start(35000);
+            _server.Start(31000);
             isActive = true;
 
-            LogHelper.Debug("start server...");
+            LogHelper.Debug($"start server... port : {31000}");
             while (isActive)
             {
                 Thread.Sleep(33);

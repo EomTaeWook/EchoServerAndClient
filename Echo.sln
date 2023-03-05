@@ -5,7 +5,11 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Echo", "Echo\Echo.csproj", "{54195096-AC62-4159-B522-387D9C5C591F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoClient", "EchoClient\EchoClient.csproj", "{09791570-D78B-4A6C-99D9-0A4022988DDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoClient", "EchoClient\EchoClient.csproj", "{09791570-D78B-4A6C-99D9-0A4022988DDE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kosher", "..\Kosher\Kosher\Kosher.csproj", "{4F62AB98-51A1-4CA7-AA0E-02BDCC4867BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kosher.Sockets", "..\Kosher\Kosher.Sockets\Kosher.Sockets.csproj", "{183B6AED-47A7-47DA-9C67-17C7F637EA44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{09791570-D78B-4A6C-99D9-0A4022988DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09791570-D78B-4A6C-99D9-0A4022988DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09791570-D78B-4A6C-99D9-0A4022988DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F62AB98-51A1-4CA7-AA0E-02BDCC4867BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F62AB98-51A1-4CA7-AA0E-02BDCC4867BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F62AB98-51A1-4CA7-AA0E-02BDCC4867BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F62AB98-51A1-4CA7-AA0E-02BDCC4867BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{183B6AED-47A7-47DA-9C67-17C7F637EA44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{183B6AED-47A7-47DA-9C67-17C7F637EA44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{183B6AED-47A7-47DA-9C67-17C7F637EA44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{183B6AED-47A7-47DA-9C67-17C7F637EA44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

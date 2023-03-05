@@ -8,14 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Kosher">
-      <HintPath>..\Dll\Kosher.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\Kosher\Kosher.Sockets\Kosher.Sockets.csproj" />
+    <ProjectReference Include="..\..\Kosher\Kosher\Kosher.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Kosher.Extensions">
       <HintPath>..\Dll\Kosher.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Kosher.Sockets">
-      <HintPath>..\Dll\Kosher.Sockets.dll</HintPath>
     </Reference>
   </ItemGroup>
 
